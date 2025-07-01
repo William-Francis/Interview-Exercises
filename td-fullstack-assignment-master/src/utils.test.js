@@ -79,4 +79,31 @@ describe('Detect sums', () => {
       { pA: 2, pB: 3, sum: 4 }
     ]);
   });
+
+  it('should handle negative numbers correctly', () => {
+    const result = detectSums([-1, 2, 1, -3]);
+    expect(result).to.deep.equal([
+      { pA: 0, pB: 1, sum: 2 },
+      { pA: 0, pB: 2, sum: 1 },
+      { pA: 1, pB: 2, sum: 3 }
+    ]);
+  });
+
+  it('should handle single element array', () => {
+    const result = detectSums([5]);
+    expect(result).to.deep.equal([]);
+  });
+
+  it('should handle array with all same numbers', () => {
+    const result = detectSums([2, 2, 2, 2]);
+    expect(result).to.deep.equal([]);
+  });
+
+  it('should handle large numbers', () => {
+    const result = detectSums([1000, 2000, 3000, 3000]);
+    expect(result).to.deep.equal([
+      { pA: 0, pB: 1, sum: 2 },
+      { pA: 0, pB: 1, sum: 3 }
+    ]);
+  });
 });

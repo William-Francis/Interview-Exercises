@@ -1,11 +1,13 @@
 export const detectSums = (array) => {
-  let arrayFormatted = array.split(',').map(i => parseInt(i.trim(), 10));
+  if (!Array.isArray(array)) {
+    throw new Error('Input is not an array');
+  }
   let resultArray = [];
-  for (let i = 0; i < arrayFormatted.length; i++) {
-    for (let j = i + 1; j < arrayFormatted.length; j++) {
-      if (arrayFormatted.includes(arrayFormatted[i] + arrayFormatted[j])) {
-        const sumIndex = arrayFormatted.reduce(function (arr, element, index) {
-          if (element === arrayFormatted[i] + arrayFormatted[j] && index !== i && index !== j) arr.push(index);
+  for (let i = 0; i < array.length; i++) {
+    for (let j = i + 1; j < array.length; j++) {
+      if (array.includes(array[i] + array[j])) {
+        const sumIndex = array.reduce(function (arr, element, index) {
+          if (element === array[i] + array[j] && index !== i && index !== j) arr.push(index);
           return arr;
         }, []);
         for (let k = 0; k < sumIndex.length; k++) {
@@ -18,7 +20,7 @@ export const detectSums = (array) => {
       }
     }
   }
-  return '[' + resultArray.map((item) => JSON.stringify(item)).join(',') + ']';
+  return resultArray
 };
 
 export function calculateResult(input) {
@@ -26,7 +28,7 @@ export function calculateResult(input) {
   let error = null;
   let result = '';
   try {
-    result = detectSums(input);
+    result = detectSums(parsedInput);
   } catch (e) {
     error = e.message;
   }

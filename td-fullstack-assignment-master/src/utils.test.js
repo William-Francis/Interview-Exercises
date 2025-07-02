@@ -84,8 +84,7 @@ describe('Detect sums', () => {
     const result = detectSums([-1, 2, 1, -3]);
     expect(result).to.deep.equal([
       { pA: 0, pB: 1, sum: 2 },
-      { pA: 0, pB: 2, sum: 1 },
-      { pA: 1, pB: 2, sum: 3 }
+      { pA: 1, pB: 3, sum: 0 }
     ]);
   });
 

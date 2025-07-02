@@ -1,6 +1,4 @@
 // takes in an array and returns each pair of numbers that sum to a value in the array
-
-export const detectSums = (array) => {
 export const detectSums = (array) => {
   if (!Array.isArray(array)) {
     throw new Error('Input is not an array');
@@ -30,7 +28,7 @@ export const detectSums = (array) => {
   return resultArray
 };
 
-// Much faster version of detectSums using a value-to-indices map and sorted array optimizations
+// Much faster version of detectSums using a value-to-indices map
 export const detectSumsFast = (array) => {
   if (!Array.isArray(array)) {
     throw new Error('Input is not an array');
@@ -59,9 +57,35 @@ export const detectSumsFast = (array) => {
   return resultArray;
 };
 
-
-
-
+// Memory-efficient version that minimizes memory usage
+export const detectSumsLowerMemory = (array) => {
+  if (!Array.isArray(array)) {
+    throw new Error('Input is not an array');
+  }
+  const resultArray = [];
+  // Use nested loops without any additional data structures
+  for (let i = 0; i < array.length; i++) {
+    for (let j = i + 1; j < array.length; j++) {
+      const sum = array[i] + array[j];
+      
+      // Scan the array to find all indices where the sum exists
+      for (let k = 0; k < array.length; k++) {
+        // Skip if any index is the same (can't use same element twice)
+        if (k === i || k === j) continue;
+        
+        // Check if this position contains the sum
+        if (array[k] === sum) {
+          resultArray.push({
+            pA: i,
+            pB: j,
+            sum: k,
+          });
+        }
+      }
+    }
+  }
+  return resultArray;
+};
 
 export function calculateResult(input) {
   const parsedInput = input.split(',').map(i => parseInt(i.trim(), 10));

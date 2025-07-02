@@ -1,4 +1,6 @@
 // takes in an array and returns each pair of numbers that sum to a value in the array
+// Time : O(n³)
+// Memory: O(n + r) where r is the number of results
 export const detectSums = (array) => {
   if (!Array.isArray(array)) {
     throw new Error('Input is not an array');
@@ -29,6 +31,8 @@ export const detectSums = (array) => {
 };
 
 // Much faster version of detectSums using a value-to-indices map
+// Time : O(n² × k) where k is the average number of indices for each sum
+// Memory: O(n + r) where r is the number of results
 export const detectSumsFast = (array) => {
   if (!Array.isArray(array)) {
     throw new Error('Input is not an array');
@@ -58,6 +62,8 @@ export const detectSumsFast = (array) => {
 };
 
 // Memory-efficient version that minimizes memory usage
+// Time : O(n² × k) where k is the average number of indices for each sum
+// Memory: O(r) where r is the number of results
 export const detectSumsLowerMemory = (array) => {
   if (!Array.isArray(array)) {
     throw new Error('Input is not an array');

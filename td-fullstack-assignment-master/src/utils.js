@@ -28,6 +28,35 @@ export const detectSums = (array) => {
   return resultArray
 };
 
+// Much faster version of detectSums using a value-to-indices map
+export const detectSumsFast = (array) => {
+  if (!Array.isArray(array)) {
+    throw new Error('Input is not an array');
+  }
+  // Preprocess: value -> [indices]
+  const valueToIndices = new Map();
+  array.forEach((value, idx) => {
+    if (!valueToIndices.has(value)) valueToIndices.set(value, []);
+    valueToIndices.get(value).push(idx);
+  });
+
+  let resultArray = [];
+  for (let i = 0; i < array.length; i++) {
+    for (let j = i + 1; j < array.length; j++) {
+      const sum = array[i] + array[j];
+      const indices = (valueToIndices.get(sum) || []).filter(idx => idx !== i && idx !== j);
+      for (let k = 0; k < indices.length; k++) {
+        resultArray.push({
+          pA: i,
+          pB: j,
+          sum: indices[k],
+        });
+      }
+    }
+  }
+  return resultArray;
+};
+
 export function calculateResult(input) {
   const parsedInput = input.split(',').map(i => parseInt(i.trim(), 10));
   let error = null;

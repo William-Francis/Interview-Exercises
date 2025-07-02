@@ -1,4 +1,6 @@
 // takes in an array and returns each pair of numbers that sum to a value in the array
+
+export const detectSums = (array) => {
 export const detectSums = (array) => {
   if (!Array.isArray(array)) {
     throw new Error('Input is not an array');
@@ -34,26 +36,17 @@ export const detectSumsFast = (array) => {
     throw new Error('Input is not an array');
   }
   
-  // Sort the array first for optimizations
-  const sortedArray = [...array].sort((a, b) => a - b);
-  const maxValue = sortedArray[sortedArray.length - 1];
-  
   // Preprocess: value -> [indices]
   const valueToIndices = new Map();
-  sortedArray.forEach((value, idx) => {
+  array.forEach((value, idx) => {
     if (!valueToIndices.has(value)) valueToIndices.set(value, []);
     valueToIndices.get(value).push(idx);
   });
 
   let resultArray = [];
-  for (let i = 0; i < sortedArray.length; i++) {
-    for (let j = i + 1; j < sortedArray.length; j++) {
-      const sum = sortedArray[i] + sortedArray[j];
-      
-      // Early termination: if sum exceeds max value, no need to check further
-      if (sum > maxValue) break;
-      
-      const indices = (valueToIndices.get(sum) || []).filter(idx => idx !== i && idx !== j);
+  for (let i = 0; i < array.length; i++) {
+    for (let j = i + 1; j < array.length; j++) {
+      const indices = (valueToIndices.get(array[i] + array[j]) || []).filter(idx => idx !== i && idx !== j);
       for (let k = 0; k < indices.length; k++) {
         resultArray.push({
           pA: i,
@@ -65,6 +58,10 @@ export const detectSumsFast = (array) => {
   }
   return resultArray;
 };
+
+
+
+
 
 export function calculateResult(input) {
   const parsedInput = input.split(',').map(i => parseInt(i.trim(), 10));

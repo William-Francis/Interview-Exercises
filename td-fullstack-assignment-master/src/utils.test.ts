@@ -4,7 +4,7 @@ import { detectSums } from './utils';
 
 describe('Detect sums', () => {
   it('should fail if input is not an array', () => {
-    expect(() => detectSums()).to.throw('Input is not an array');
+    expect(() => detectSums(undefined as any)).to.throw('Input is not an array');
   });
 
   it('should return an array', () => {
@@ -105,4 +105,4 @@ describe('Detect sums', () => {
       { pA: 0, pB: 1, sum: 3 }
     ]);
   });
-});
+}); 

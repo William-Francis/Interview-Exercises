@@ -1,29 +1,36 @@
-import React, { Component } from 'react';
-import { calculateResult } from './utils';
+import React, { Component, ChangeEvent, FormEvent } from 'react';
+import { calculateResult, SumResult } from './utils';
 import './App.css';
 
-class App extends Component {
-  constructor(props) {
+interface AppState {
+  value: string;
+  userInput: number[];
+  result: SumResult[];
+  error: string;
+}
+
+class App extends Component<{}, AppState> {
+  constructor(props: {}) {
     super(props);
     this.state = {
       value: '',
-      userInput: '',
-      result: '',
+      userInput: [],
+      result: [],
       error: 'Write something',
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  handleChange(event) {
+  handleChange(event: ChangeEvent<HTMLInputElement>): void {
     const { value } = event.target;
     this.setState({ value });
   }
 
-  handleSubmit(event) {
+  handleSubmit(event: FormEvent<HTMLFormElement>): void {
     const { value } = this.state;
     const { input, result, error } = calculateResult(value);
-    this.setState({ userInput: input, result, error });
+    this.setState({ userInput: input, result, error: error || '' });
     event.preventDefault();
   }
 
@@ -49,4 +56,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default App; 

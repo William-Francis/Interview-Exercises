@@ -28,22 +28,31 @@ export const detectSums = (array) => {
   return resultArray
 };
 
-// Much faster version of detectSums using a value-to-indices map
+// Much faster version of detectSums using a value-to-indices map and sorted array optimizations
 export const detectSumsFast = (array) => {
   if (!Array.isArray(array)) {
     throw new Error('Input is not an array');
   }
+  
+  // Sort the array first for optimizations
+  const sortedArray = [...array].sort((a, b) => a - b);
+  const maxValue = sortedArray[sortedArray.length - 1];
+  
   // Preprocess: value -> [indices]
   const valueToIndices = new Map();
-  array.forEach((value, idx) => {
+  sortedArray.forEach((value, idx) => {
     if (!valueToIndices.has(value)) valueToIndices.set(value, []);
     valueToIndices.get(value).push(idx);
   });
 
   let resultArray = [];
-  for (let i = 0; i < array.length; i++) {
-    for (let j = i + 1; j < array.length; j++) {
-      const sum = array[i] + array[j];
+  for (let i = 0; i < sortedArray.length; i++) {
+    for (let j = i + 1; j < sortedArray.length; j++) {
+      const sum = sortedArray[i] + sortedArray[j];
+      
+      // Early termination: if sum exceeds max value, no need to check further
+      if (sum > maxValue) break;
+      
       const indices = (valueToIndices.get(sum) || []).filter(idx => idx !== i && idx !== j);
       for (let k = 0; k < indices.length; k++) {
         resultArray.push({
